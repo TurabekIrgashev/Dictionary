@@ -22,10 +22,18 @@
     height: 60vh;
   }
 }
+
 .singleMean {
   display: flex;
   flex-direction: column;
   border-radius: 10px;
   padding: 10px 20px;
   margin: 10px 0;
+}
+
+.border {
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid black;
+  margin: 10px;
 }
