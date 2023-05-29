@@ -12,6 +12,7 @@ const Header = ({
   word,
   setMeanings,
   LightTheme,
+  uzbMeaning
 }) => {
   const darkTheme = createMuiTheme({
     palette: {
@@ -40,7 +41,7 @@ const Header = ({
           <TextField
             className="search"
             id="filled-basic"
-            // value={word}
+            value={word}
             label="Search a Word"
             onChange={(e) => handleText(e.target.value)}
           />
