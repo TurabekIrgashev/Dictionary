@@ -15,117 +15,49 @@ function App() {
   const [category, setCategory] = useState("");
   const [uzbWord, setUzbWord] = useState("")
   const [LightTheme, setLightTheme] = useState(false);
+  const [loader, setLoader] = useState(false)
+  const [noWord, setNoWord] = useState(false)
+
+
   useEffect(() => {
-    console.log(word, category);
-    if (word && category) {
-      axios.get(`https://lexicala1.p.rapidapi.com/search-entries?text=${word}&language=${category === "uz" ? ("en") : category}`,
-        {
+    if (category == "uz") {
+      if (engMeaning) {
+        console.log("100", engMeaning);
+        const options = {
+          method: 'Post',
+          url: `https://deep-translate1.p.rapidapi.com/language/translate/v2`,
+          // headers: {
+          //   'content-type': 'application/json',
+          //   'X-RapidAPI-Key': '470361e4bamsh4c09598441fdeecp1aea14jsn5eb6db81c21b',
+          //   'X-RapidAPI-Host': 'deep-translate1.p.rapidapi.com'
+          // },
           headers: {
-            'X-RapidAPI-Key': '470361e4bamsh4c09598441fdeecp1aea14jsn5eb6db81c21b',
-            'X-RapidAPI-Host': 'lexicala1.p.rapidapi.com'
+            'content-type': 'application/json',
+            'X-RapidAPI-Key': '65c36090f2msh5ab67f027ce0d78p18de4fjsn48c98651d031',
+            'X-RapidAPI-Host': 'deep-translate1.p.rapidapi.com'
+          },
+          data: {
+            q: `${engMeaning}`,
+            source: "en",
+            target: "uz"
+          },
+
+        };
+        async function f1() {
+          try {
+            const response = await axios.request(options);
+            console.log("117", response.data);
+            setUzbMeaning(response?.data?.data?.translations?.translatedText)
+            setLoader(false)
+          } catch (error) {
+            console.error(error);
+            console.log("error");
           }
-        })
-        .then((res) => {
-          console.log("data", res?.data);
-          console.log("res", res);
-          setMeanings(res?.data)
-        })
-
-        .catch((err) => { console.log("error", err); })
-    } else {
-      console.log("else");
-    }
-  }, [word, category]);
-
-  useEffect(() => {
-    // console.log(word, category);
-    console.log(uzbWord);
-    if (uzbWord) {
-      axios.get(`https://lexicala1.p.rapidapi.com/search-entries?text=${uzbWord}&language=en`,
-        {
-          headers: {
-            'X-RapidAPI-Key': '470361e4bamsh4c09598441fdeecp1aea14jsn5eb6db81c21b',
-            'X-RapidAPI-Host': 'lexicala1.p.rapidapi.com'
-          }
-        })
-        .then((res) => {
-          console.log("data2", res?.data);
-          console.log("res2", res);
-
-          setEngMeaning(res?.data?.results[0]?.senses[0]?.definition)
-        })
-
-        .catch((err) => { console.log("error", err); })
-    } else {
-      console.log("else");
-    }
-  }, [uzbWord]);
-
-  useEffect(() => {
-    console.log("category", category);
-    if (category === "uz") {
-      const options = {
-        method: 'Post',
-        url: `https://deep-translate1.p.rapidapi.com/language/translate/v2`,
-        headers: {
-          'content-type': 'application/json',
-          'X-RapidAPI-Key': '470361e4bamsh4c09598441fdeecp1aea14jsn5eb6db81c21b',
-          'X-RapidAPI-Host': 'deep-translate1.p.rapidapi.com'
-        },
-        data: {
-          q: `${word}`,
-          source: `${category}`,
-          target: "en"
-        },
-
-      };
-      async function f1() {
-        try {
-          const response = await axios.request(options);
-          console.log(response.data);
-          setUzbWord(response?.data?.data?.translations?.translatedText);
-          // console.log("setUzbword", response?.data?.data?.translations?.translatedText);
-        } catch (error) {
-          console.error(error);
-          console.log("error");
         }
+        f1()
       }
-      f1()
     }
-  }, [word, uzbWord])
-  // console.log("1", meanings.results);
 
-
-  useEffect(() => {
-    if (engMeaning) {
-      console.log("100", engMeaning);
-      const options = {
-        method: 'Post',
-        url: `https://deep-translate1.p.rapidapi.com/language/translate/v2`,
-        headers: {
-          'content-type': 'application/json',
-          'X-RapidAPI-Key': '470361e4bamsh4c09598441fdeecp1aea14jsn5eb6db81c21b',
-          'X-RapidAPI-Host': 'deep-translate1.p.rapidapi.com'
-        },
-        data: {
-          q: `${engMeaning}`,
-          source: "en",
-          target: "uz"
-        },
-
-      };
-      async function f1() {
-        try {
-          const response = await axios.request(options);
-          console.log("117", response.data);
-          setUzbMeaning(response?.data?.data?.translations?.translatedText)
-        } catch (error) {
-          console.error(error);
-          console.log("error");
-        }
-      }
-      f1()
-    }
   }, [engMeaning])
   const PurpleSwitch = withStyles({
     switchBase: {
@@ -176,6 +108,13 @@ function App() {
           word={word}
           setMeanings={setMeanings}
           LightTheme={LightTheme}
+          uzbWord={uzbWord}
+          setEngMeaning={setEngMeaning}
+          meanings={meanings}
+          setUzbWord={setUzbWord}
+          setUzbMeaning={setUzbMeaning}
+          setLoader={setLoader}
+          setNoWord={setNoWord}
         />
         {meanings && (
           <Definitions
@@ -184,6 +123,8 @@ function App() {
             LightTheme={LightTheme}
             category={category}
             uzbMeaning={uzbMeaning}
+            loader={loader}
+            noWord={noWord}
           />
         )}
       </Container>
