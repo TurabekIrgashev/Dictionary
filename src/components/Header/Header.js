@@ -45,19 +45,19 @@ const Header = ({
             //   'X-RapidAPI-Key': '470361e4bamsh4c09598441fdeecp1aea14jsn5eb6db81c21b',
             //   'X-RapidAPI-Host': 'lexicala1.p.rapidapi.com'
             // }
-            // headers: {
-            //   'X-RapidAPI-Key': '9d00c2c592msh962c36d3bc07ac4p1da9c0jsn7c1b73d2d833',
-            //   'X-RapidAPI-Host': 'lexicala1.p.rapidapi.com'
-            // }
             headers: {
-              'X-RapidAPI-Key': '65c36090f2msh5ab67f027ce0d78p18de4fjsn48c98651d031',
+              'X-RapidAPI-Key': '9d00c2c592msh962c36d3bc07ac4p1da9c0jsn7c1b73d2d833',
               'X-RapidAPI-Host': 'lexicala1.p.rapidapi.com'
             }
+            // headers: {
+            //   'X-RapidAPI-Key': '65c36090f2msh5ab67f027ce0d78p18de4fjsn48c98651d031',
+            //   'X-RapidAPI-Host': 'lexicala1.p.rapidapi.com'
+            // }
           })
           .then((res) => {
             console.log("data2", res?.data);
             console.log("res2", res);
-            if (res?.data?.results.length === 0) {
+            if (res?.data?.results.length === 0 && category === "uz") {
               setLoader(false)
               setNoWord(true)
             }
@@ -146,20 +146,23 @@ const Header = ({
           //   'X-RapidAPI-Key': '470361e4bamsh4c09598441fdeecp1aea14jsn5eb6db81c21b',
           //   'X-RapidAPI-Host': 'lexicala1.p.rapidapi.com'
           // }
-          // headers: {
-          //   'X-RapidAPI-Key': '9d00c2c592msh962c36d3bc07ac4p1da9c0jsn7c1b73d2d833',
-          //   'X-RapidAPI-Host': 'lexicala1.p.rapidapi.com'
-          // }
           headers: {
-            'X-RapidAPI-Key': '65c36090f2msh5ab67f027ce0d78p18de4fjsn48c98651d031',
+            'X-RapidAPI-Key': '9d00c2c592msh962c36d3bc07ac4p1da9c0jsn7c1b73d2d833',
             'X-RapidAPI-Host': 'lexicala1.p.rapidapi.com'
           }
+          // headers: {
+          //   'X-RapidAPI-Key': '65c36090f2msh5ab67f027ce0d78p18de4fjsn48c98651d031',
+          //   'X-RapidAPI-Host': 'lexicala1.p.rapidapi.com'
+          // }
         })
         .then((res) => {
           console.log("data", res?.data);
           console.log("res", res);
           setMeanings(res?.data)
           setChange("changed")
+          if (res?.data?.results.length !== 0) {
+            setNoWord(false)
+          }
           if (category !== "uz") {
             setLoader(false)
           }
