@@ -201,6 +201,7 @@ const Header = ({
             onChange={(e) => handleText(e.target.value)}
           />
           <Button
+            disabled={category ? false : true}
             style={{
               backgroundColor: LightTheme ? "white" : "#282C34",
               color: LightTheme ? "black" : "white",
